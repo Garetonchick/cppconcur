@@ -1,0 +1,30 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "sched_thread_pool_unit_tests"
+      ],
+      "profiles": [
+        "Debug"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_stress_tests"
+      ],
+      "profiles": [
+        "Fiber",
+        "FaultyThreadASan",
+        "FaultyThreadTSan"
+      ]
+    }
+  ]
+}

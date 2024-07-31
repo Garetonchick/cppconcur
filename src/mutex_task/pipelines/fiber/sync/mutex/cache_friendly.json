@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "fiber_sync_mutex_switch_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    }
+  ]
+}

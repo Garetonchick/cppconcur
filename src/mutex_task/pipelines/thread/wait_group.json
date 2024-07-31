@@ -1,0 +1,47 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "thread_wait_group_unit_tests"
+      ],
+      "profiles": [
+        "Debug"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_random_tests"
+      ],
+      "profiles": [
+        "Matrix",
+        "FaultyThreadASan",
+        "FaultyThreadTSan"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_model_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_futex_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_storage_tests"
+      ],
+      "profiles": [
+        "Matrix",
+        "FaultyThreadASan"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "fiber_sched_thread_pool_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sched_run_loop_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sched_run_loop_sync_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "sched_run_loop_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "sched_run_loop_sane_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    }
+  ]
+}

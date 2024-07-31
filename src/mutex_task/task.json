@@ -1,0 +1,244 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "thread_wait_group_unit_tests"
+      ],
+      "profiles": [
+        "Debug"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_random_tests"
+      ],
+      "profiles": [
+        "Matrix",
+        "FaultyThreadASan",
+        "FaultyThreadTSan"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_model_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_futex_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "thread_wait_group_storage_tests"
+      ],
+      "profiles": [
+        "Matrix",
+        "FaultyThreadASan"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_unit_tests"
+      ],
+      "profiles": [
+        "Debug"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_stress_tests"
+      ],
+      "profiles": [
+        "Fiber",
+        "FaultyThreadASan",
+        "FaultyThreadTSan"
+      ]
+    },
+    {
+      "targets": [
+        "sched_run_loop_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "sched_run_loop_sane_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sched_thread_pool_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sched_run_loop_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sched_run_loop_sync_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_event_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_event_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_event_stress_tests"
+      ],
+      "profiles": [
+        "Release",
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Fiber"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_event_storage_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_event_storage_stress_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_unit_tp_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_stress_tests"
+      ],
+      "profiles": [
+        "Release",
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Fiber"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_stress_tests"
+      ],
+      "profiles": [
+        "Release",
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Fiber"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_storage_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_storage_stress_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan"
+      ]
+    }
+  ],
+  "lint_files": ["exe"],
+  "submit_files": ["exe"],
+  "forbidden": []
+}

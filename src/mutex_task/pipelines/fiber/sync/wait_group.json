@@ -1,0 +1,48 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "fiber_sync_wait_group_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_stress_tests"
+      ],
+      "profiles": [
+        "Release",
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Fiber"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_storage_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_wait_group_storage_stress_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan"
+      ]
+    }
+  ]
+}

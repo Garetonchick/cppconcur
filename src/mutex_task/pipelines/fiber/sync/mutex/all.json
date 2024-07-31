@@ -1,0 +1,66 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "fiber_sync_mutex_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_unit_tp_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_stress_tests"
+      ],
+      "profiles": [
+        "Release",
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Fiber"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_alloc_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_so_tests"
+      ],
+      "profiles": [
+        "FiberASan",
+        "FaultyThreadASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_mutex_switch_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    }
+  ]
+}
