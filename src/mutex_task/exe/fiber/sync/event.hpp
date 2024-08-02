@@ -3,6 +3,7 @@
 #include <exe/fiber/sched/suspend.hpp>
 #include <exe/thread/spinlock.hpp>
 #include <vector>
+#include <mutex>
 
 #include <fmt/core.h>
 
