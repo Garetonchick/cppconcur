@@ -15,10 +15,12 @@ include(cmake/FetchContent.cmake)
 
 add_subdirectory(deps)
 
-# This must be included after library so that
+# This must be included after deps so that
 # third party code is not affected
 include(cmake/Werror.cmake)
-include(cmake/Task.cmake)
+include(cmake/Lib.cmake)
+include(cmake/Test.cmake)
 
 add_subdirectory(src)
-
+add_subdirectory(examples)
+add_subdirectory(tests)

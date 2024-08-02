@@ -1,1 +1,1 @@
-add_subdirectory(mutex_task)
+add_dir_library(exe)
