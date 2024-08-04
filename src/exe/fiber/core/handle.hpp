@@ -2,18 +2,22 @@
 
 #include "fwd.hpp"
 
-#include <wheels/intrusive/list.hpp>
+#include <wheels/intrusive/forward_list.hpp>
 
 namespace exe::fiber {
 
 // Opaque non-owning handle to the _suspended_ fiber
 
-class FiberHandle : public wheels::IntrusiveListNode<FiberHandle> {
+class FiberHandle : public wheels::IntrusiveForwardListNode<FiberHandle> {
   friend class Fiber;
 
  public:
   FiberHandle()
       : FiberHandle(nullptr) {
+  }
+
+  explicit FiberHandle(Fiber* fiber)
+      : fiber_(fiber) {
   }
 
   static FiberHandle Invalid() {
@@ -32,10 +36,6 @@ class FiberHandle : public wheels::IntrusiveListNode<FiberHandle> {
   void Switch();
 
  private:
-  explicit FiberHandle(Fiber* fiber)
-      : fiber_(fiber) {
-  }
-
   Fiber* Release();
 
  private:

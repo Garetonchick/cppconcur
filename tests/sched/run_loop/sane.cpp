@@ -1,5 +1,4 @@
 #include <exe/sched/run_loop.hpp>
-#include <exe/sched/task/submit.hpp>
 
 #include <twist/sim.hpp>
 
@@ -12,6 +11,12 @@ static_assert(twist::build::IsolatedSim());
 using namespace exe;  // NOLINT
 
 TEST_SUITE(RunLoop) {
+  struct Job final : sched::task::TaskBase {
+    void Run() noexcept override {
+      // No-op
+    }
+  };
+
   SIMPLE_TEST(NoSynchronization) {
     twist::sim::sched::CoopScheduler scheduler;
     twist::sim::Simulator simulator{&scheduler};
@@ -19,8 +24,10 @@ TEST_SUITE(RunLoop) {
     auto result = simulator.Run([] {
       sched::RunLoop loop;
 
-      sched::task::Submit(loop, []{});
-      TWIST_TEST_ASSERT(loop.Run() == 1, "Missing task");
+      Job job;
+      loop.Submit(&job);
+      size_t done = loop.Run();
+      ASSERT_TRUE(done == 1);
 
       size_t atomic_count = twist::sim::stat::AtomicCount();
       TWIST_TEST_ASSERT(atomic_count == 0, "Unexpected synchronization");

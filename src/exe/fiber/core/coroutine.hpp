@@ -24,7 +24,7 @@ class Coroutine : private sure::ITrampoline {
   void Run() noexcept;
 
  private:
-  static const size_t kStackSize = 4 * 1024 * 1024;
+  static const size_t kStackSize = 1 * 1024 * 1024;
 
   sure::ExecutionContext coroutine_ctx_;
   sure::ExecutionContext original_ctx_;

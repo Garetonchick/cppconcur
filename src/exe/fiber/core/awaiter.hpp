@@ -6,8 +6,6 @@
 
 namespace exe::fiber {
 
-// using Awaiter = fu2::unique_function<void(FiberHandle)>;
-
 struct IAwaiter {
   virtual ~IAwaiter() = default;
   virtual void Await(FiberHandle) = 0;

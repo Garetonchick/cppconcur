@@ -3,6 +3,8 @@
 #include "scheduler.hpp"
 #include "function_task.hpp"
 
+#include <cstdlib>
+
 namespace exe::sched::task {
 
 template <typename F>

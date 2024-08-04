@@ -3,8 +3,9 @@
 #include <exe/sched/task/scheduler.hpp>
 #include <exe/thread/queue.hpp>
 
-#include <cstddef>
 #include <twist/ed/std/thread.hpp>
+#include <vector>
+#include <cstddef>
 
 namespace exe::sched {
 

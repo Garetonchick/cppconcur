@@ -1,6 +1,7 @@
 #include "thread_pool.hpp"
 
 #include <twist/ed/static/thread_local/ptr.hpp>
+#include <cassert>
 
 namespace exe::sched {
 

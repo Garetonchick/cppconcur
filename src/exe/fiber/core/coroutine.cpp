@@ -37,5 +37,4 @@ bool Coroutine::IsCompleted() const {
   return completed_;
 }
 
-
 }  // namespace exe::fiber

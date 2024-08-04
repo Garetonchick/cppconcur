@@ -2,14 +2,14 @@
 
 #include <exe/fiber/sched/go.hpp>
 #include <exe/fiber/sync/wait_group.hpp>
-#include <exe/fiber/sync/mutex.hpp>
+#include <exe/fiber/sync/strand.hpp>
 
 #include <exe/thread/wait_group.hpp>
 
+#include <twist/ed/std/thread.hpp>
+
 #include <twist/sim.hpp>
 #include <twist/test/assert.hpp>
-
-#include <twist/ed/std/thread.hpp>
 
 #include <fmt/core.h>
 
@@ -17,7 +17,7 @@
 
 static_assert(twist::build::IsolatedSim());
 
-TEST_SUITE(Mutex) {
+TEST_SUITE(Strand) {
 
   class SharedState {
    public:
@@ -56,26 +56,26 @@ TEST_SUITE(Mutex) {
     thread::WaitGroup example;
     example.Add(1);
 
-    const size_t kFibers = 512;
+    const size_t kFibers = 256;
     const size_t kLocks = 1024;
 
     fiber::Go(scheduler, [&] {
       fiber::WaitGroup wg;
 
-      fiber::Mutex mutex;
+      fiber::Strand mutex;
 
       for (size_t i = 0; i < kFibers; ++i) {
         wg.Add(1);
 
         fiber::Go([&] {
           for (size_t j = 0; j < kLocks; ++j) {
-            std::lock_guard locker{mutex};
+            mutex.Combine([&] {
+              state.Access();
 
-            state.Access();
-
-            if (j % 3 == 0) {
-              twist::ed::std::this_thread::yield();
-            }
+              if (j % 3 == 0) {
+                twist::ed::std::this_thread::yield();
+              }
+            });
           }
 
           wg.Done();
@@ -99,9 +99,11 @@ TEST_SUITE(Mutex) {
 
     TWIST_TEST_ASSERT(access_count == kFibers * kLocks, "Missing critical sections");
 
-    const size_t kSwitchThreshold = 512;
+    const size_t kSwitchHiThreshold = 2046;
+    const size_t kSwitchLoThreshold = 32;
 
-    TWIST_TEST_ASSERT(switch_count < kSwitchThreshold, "Too many thread switches");
+    TWIST_TEST_ASSERT(switch_count < kSwitchHiThreshold, "Too many thread switches");
+    TWIST_TEST_ASSERT(switch_count > kSwitchLoThreshold, "Do not occupy thread");
   }
 
   TEST(SwitchCount, wheels::test::TestOptions().TimeLimit(std::chrono::seconds(10))) {
@@ -110,8 +112,8 @@ TEST_SUITE(Mutex) {
     auto result = simulator.Run(Test);
 
     if (!result.Ok()) {
-      fmt::println("Simulation status: {}", result.status);
-      FAIL_TEST("Too many thread switches at shared state access");
+      fmt::println("{}: {}", result.status, result.std_err);
+      FAIL_TEST(result.std_err);
     }
   }
 }

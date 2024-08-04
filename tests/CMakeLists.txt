@@ -39,8 +39,14 @@ add_concur_test(fiber_sync_mutex_unit_tp_tests fiber/sync/mutex/unit_tp.cpp)
 add_concur_test(fiber_sync_mutex_random_tests fiber/sync/mutex/random.cpp)
 add_concur_test(fiber_sync_mutex_stress_tests fiber/sync/mutex/stress.cpp)
 add_concur_test(fiber_sync_mutex_alloc_tests fiber/sync/mutex/alloc.cpp)
-add_concur_test(fiber_sync_mutex_switch_tests fiber/sync/mutex/switch.cpp)
-add_concur_test(fiber_sync_mutex_so_tests fiber/sync/mutex/stack_overflow.cpp)
+
+# Fiber / Sync / Strand
+
+add_concur_test(fiber_sync_strand_unit_tests fiber/sync/strand/unit.cpp)
+add_concur_test(fiber_sync_strand_random_tests fiber/sync/strand/random.cpp)
+add_concur_test(fiber_sync_strand_stress_tests fiber/sync/strand/stress.cpp)
+add_concur_test(fiber_sync_strand_switch_tests fiber/sync/strand/switch.cpp)
+add_concur_test(fiber_sync_strand_alloc_tests fiber/sync/strand/alloc.cpp)
 
 # Fiber / Sync / WaitGroup
 

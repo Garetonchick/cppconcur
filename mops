@@ -4,6 +4,7 @@ import argparse
 import traceback
 import subprocess
 import itertools
+import shutil
 import json
 import sys
 import os
@@ -80,7 +81,27 @@ def make_make_command(target):
     ]
     return cmd
 
+def clean_build_files():
+    clean_cmd = ['make', 'clean']
+    for (name, _) in PROFILES_CONFIG.items():
+        build_dir = get_build_dir(name)
+        lib_dir = os.path.join(build_dir, 'src')
+        tests_dir = os.path.join(build_dir, 'tests')
+        examples_dir = os.path.join(build_dir, 'examples')
+
+        call_cmd(clean_cmd, cwd=build_dir)
+        call_cmd(clean_cmd, cwd=lib_dir)
+        call_cmd(clean_cmd, cwd=tests_dir)
+        call_cmd(clean_cmd, cwd=examples_dir)
+
+    # for (name, _) in PROFILES_CONFIG.items():
+    #     shutil.rmtree(get_build_dir(name))
+
 def cmake_command(args):
+    if args.clean:
+        clean_build_files()
+        return
+
     for (name, options) in PROFILES_CONFIG.items():
         build_dir = get_build_dir(name)
         os.makedirs(build_dir, exist_ok=True)

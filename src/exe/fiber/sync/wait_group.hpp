@@ -4,7 +4,6 @@
 #include <exe/thread/spinlock.hpp>
 
 #include <cstddef>
-#include <vector>
 #include <mutex>
 
 namespace exe::fiber {
@@ -54,7 +53,7 @@ class WaitGroup {
  private:
   thread::SpinLock lock_;
   size_t running_{0};
-  wheels::IntrusiveList<FiberHandle> waiters_;
+  wheels::IntrusiveForwardList<FiberHandle> waiters_;
 };
 
 }  // namespace exe::fiber

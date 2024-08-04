@@ -47,7 +47,7 @@ TEST_SUITE(StressEvent) {
         event.Wait();
 
         int d = data.Read();
-        TWIST_TEST_ASSERT(d == 1, "Missing message");
+        TWIST_TEST_ASSERT(d == 1, "Missing work");
 
         iter.Done();
       });

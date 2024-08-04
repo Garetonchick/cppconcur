@@ -1,6 +1,5 @@
 #pragma once
 
-#include <function2/function2.hpp>
 #include <wheels/intrusive/forward_list.hpp>
 
 namespace exe::sched::task {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "body.hpp"
 #include "coroutine.hpp"
 #include "scheduler.hpp"
 #include "awaiter.hpp"

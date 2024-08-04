@@ -6,7 +6,6 @@
 
 #include <twist/assist/random.hpp>
 #include <twist/assist/shared.hpp>
-
 #include <twist/test/assert.hpp>
 
 #include <array>

@@ -3,7 +3,6 @@
 #include <exe/fiber/sched/suspend.hpp>
 #include <exe/thread/spinlock.hpp>
 
-#include <deque>
 #include <mutex>
 
 namespace exe::fiber {
@@ -63,7 +62,7 @@ class Mutex {
  private:
   thread::SpinLock lock_;
   bool locked_{false};
-  wheels::IntrusiveList<FiberHandle> waiters_;
+  wheels::IntrusiveForwardList<FiberHandle> waiters_;
 };
 
 }  // namespace exe::fiber

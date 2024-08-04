@@ -3,7 +3,6 @@
 #include <exe/sched/task/scheduler.hpp>
 
 #include <cstddef>
-#include <deque>
 
 namespace exe::sched {
 
