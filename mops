@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+
+import argparse
+import traceback
+import subprocess
+import itertools
+import json
+import sys
+import os
+
+from tempfile import gettempdir
+from shutil import which
+
+#                              Helpers
+# ---------------------------------------------------------------------
+
+def get_cxx_compiler_path():
+    versions = [20, 19, 18, 17] 
+    for v in versions:
+        path = which(f"clang++-{v}")
+        if path is not None:
+            return path
+    return ""
+
+def get_c_compiler_path():
+    versions = [20, 19, 18, 17] 
+    for v in versions:
+        path = which(f"clang-{v}")
+        if path is not None:
+            return path
+    return ""
+
+def read_profiles(path):
+    with open(path, 'r') as f:
+        return json.load(f)
+
+def read_pipeline(pipeline_path):
+    with open(pipeline_path, 'r') as f:
+        return json.load(f)['tests']
+    
+def prepend(prefix, l):
+    return [prefix + item for item in l]
+
+# ---------------------------------------------------------------------
+
+TMPDIR = os.path.join(gettempdir(), "mops")
+PROJECT_ROOT = os.getcwd()
+CXX_COMPILER_PATH = get_cxx_compiler_path()
+C_COMPILER_PATH = get_c_compiler_path()
+PROFILES_CONFIG = read_profiles(os.path.join(PROJECT_ROOT, ".mops-build-profiles.json"))
+HARDWARE_CONCURRENCY = os.cpu_count()
+PIPELINES_DIR = os.path.join(PROJECT_ROOT, "pipelines")
+
+class ClientError(RuntimeError):
+    pass
+
+def get_build_dir(profile_name):
+    return os.path.join(TMPDIR, f"build{profile_name}")
+
+def call_cmd(args, **kwargs):
+    print("Running command...")
+    print(args)
+    try:
+        subprocess.run(args, check=True, stderr=subprocess.STDOUT, **kwargs)
+    except subprocess.CalledProcessError as err:
+        print(str(err))
+        sys.exit(1)
+
+def make_cmake_command(build_dir, args):
+    cmd = [
+        "cmake", "-S", PROJECT_ROOT, "-B", build_dir,
+        f"-DCMAKE_C_COMPILER={C_COMPILER_PATH}",
+        f"-DCMAKE_CXX_COMPILER={CXX_COMPILER_PATH}",
+    ]
+    return cmd + args
+
+def make_make_command(target):
+    cmd = [
+        "make", f"-j{HARDWARE_CONCURRENCY}", target
+    ]
+    return cmd
+
+def cmake_command(args):
+    for (name, options) in PROFILES_CONFIG.items():
+        build_dir = get_build_dir(name)
+        os.makedirs(build_dir, exist_ok=True)
+        cmd = make_cmake_command(build_dir, prepend("-D", options))
+        call_cmd(cmd)
+
+def build_and_run_target(target, profile, target_args=[]):
+    build_dir = get_build_dir(profile)
+    tests_build_dir = os.path.join(build_dir, "tests") 
+    cmd = make_make_command(target)
+    call_cmd(cmd, cwd=tests_build_dir)
+    binary_path = os.path.join(tests_build_dir, "bin", target)
+    call_cmd([binary_path, *target_args])
+
+
+def run_pipeline(pipeline_path, run_set=set()):
+    pipeline = read_pipeline(pipeline_path)
+    for test in pipeline:
+        for (target, profile) in itertools.product(test['targets'], test['profiles']):
+            p = (target, profile)
+            if p not in run_set:
+                run_set.add(p)
+                build_and_run_target(target, profile)
+
+def test_command(args):
+    if args.config is not None:
+        run_pipeline(args.config)
+        return
+    run_set = set() 
+    for root, _, files in os.walk(PIPELINES_DIR):
+        for pipeline in files:
+            pipeline_path = os.path.join(root, pipeline)
+            run_pipeline(pipeline_path, run_set)
+
+
+def target_command(args):
+    build_and_run_target(args.target, args.profile, args.target_args)
+
+pug_str ="""
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⡴⠒⠲⣄⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣖⠛⢻⣶⡤⢤⠒⠺⢿⣤⣸⣿⣿⣷⡜⡆⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⡖⠋⠀⠀⠈⠉⠉⠙⠷⢶⣾⣭⡻⣿⣿⣿⣷⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠔⠫⣀⣀⠉⠒⠤⠔⢲⢦⣀⡀⠀⠀⠈⠙⢿⣾⣿⣯⡉⣧⡀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠔⠊⠉⠉⠉⠒⠒⢤⣈⣹⣆⠤⠤⠒⠒⠒⣧⣄⣀⡀⠀⠀⠈⠛⣿⣿⣿⣿⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⣠⠤⢤⡀⠀⣸⣆⠀⠀⠛⢀⠀⠀⠀⡠⠚⢉⣁⣀⡤⣟⣫⣥⣤⣄⠹⡛⠿⣿⣇
+⠀⠀⠀⠀⠀⠀⡠⠖⠛⢶⣯⡀⠀⢀⡇⠀⡇⠀⠀⣤⠶⠺⡆⠀⢰⠁⠀⠛⣿⣿⣿⣫⡽⣿⣷⣯⣧⠙⣄⠈⠉
+⠀⠀⠀⠀⢠⠎⡠⠀⠀⡞⣿⣿⢀⡞⡰⢁⡇⠀⠀⣇⠀⠀⠘⢦⡘⣆⣀⣀⣈⣿⣿⣏⢴⣿⣿⣿⢿⡆⠈⢧⠀
+⠀⠀⠀⢠⣿⡾⠁⢀⣼⣿⡿⠃⡸⢠⠁⡜⠀⣠⠖⠙⢷⣤⡀⠀⠛⠛⠉⢉⣉⣻⠛⠻⠿⠯⣿⣿⣿⣿⡀⠈⡆       ┌───────┐ 
+⠀⠀⠀⡟⢹⣷⣤⣼⣿⣿⠁⠀⠀⡜⠀⣧⠞⢁⣤⣤⣤⣸⣿⠀⠀⣠⣶⡟⣿⡿⣷⣶⣤⣀⣀⣈⠻⣿⠁⠀⡇       │ Woof! │
+⠀⠀⢠⣷⣿⣿⣿⣿⣿⡟⠀⠀⠀⢡⠞⣡⣴⣿⣿⣿⣿⣿⠃⢤⣼⠻⣿⣷⣜⠛⢣⣬⠭⠍⠿⠿⠿⢧⡱⢶⣳       ├───────┘
+⠀⢠⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⡏⠘⣿⣿⡿⣿⣿⣿⣿⠀⠸⣿⣴⣿⣇⡿⢿⡁⢉⡴⠚⠀⠀⢰⣶⣿⣾⣿       │
+⢠⣿⣿⣿⣿⣿⣿⠿⣿⣿⠀⠀⠀⡇⢰⣿⣿⣶⣿⣿⡿⣿⠀⠀⣿⣿⣿⡟⠁⠀⣿⣿⠿⠯⣶⣶⡄⠈⡙⠂⢹ ──────┘      
+⣟⢻⣿⣿⣿⠀⠀⠀⢸⠿⣆⠀⠀⠳⣸⣿⣛⠛⠛⡿⣰⣿⠀⣼⣿⣿⣿⡇⠀⣸⠋⠀⠀⠀⣬⣿⣿⣶⡿⠧⣸
+⠈⠛⢿⣿⣿⣤⣴⣤⣿⢧⢹⡓⠀⠀⠈⠟⠻⢿⣿⠟⠉⡇⣼⣿⣿⠁⡟⠁⢰⣏⠀⢰⣷⣤⣿⣿⣿⣿⣿⠿⠋
+⠀⠀⠀⠈⠛⢿⣿⣿⡟⠀⢳⠃⠀⠀⠀⠸⡄⠀⠈⡍⠙⣿⢿⡉⠋⣼⠁⢠⣿⣿⣷⣿⣿⣿⣿⣿⣿⠟⡇⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠙⢆⠀⠣⡀⠀⠀⠀⢳⣀⠀⠸⡄⢹⡀⢳⠚⡅⠀⣾⣿⣿⣿⣿⣿⡿⠟⡿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⡀⠱⣄⠀⠀⠀⠉⠉⠓⠻⢏⣳⣌⡇⠉⣼⣿⣿⡿⠛⠋⠁⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠢⣈⠑⣝⠲⠤⢄⣠⠤⠔⠛⠛⢯⡽⠋⠉⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢬⡑⠒⠤⢄⣀⡠⠤⠒⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+"""
+
+def bark_command(args):
+    print(pug_str)
+
+# --------------------------------------------------------------------
+
+def create_cmdline_parser():
+    parser = argparse.ArgumentParser(prog="mops")
+
+    def help_command(args):
+        parser.print_help()
+
+    subparsers = parser.add_subparsers()
+
+    help = subparsers.add_parser("help", help="Print help")
+    help.set_defaults(cmd=help_command)
+
+    cmake = subparsers.add_parser("cmake", help="Generate build scripts")
+    cmake.set_defaults(cmd=cmake_command)
+    cmake.add_argument(
+        "--clean",
+        action="store_true",
+        help="Remove all existing build scripts in build directory")
+    cmake.add_argument('-p', "--profile", required=False, default=None)
+
+    test = subparsers.add_parser("test", help="Run tests for current task")
+    test.set_defaults(cmd=test_command)
+    test.add_argument("--config", required=False, help="Config with test pipeline description")
+
+    target = subparsers.add_parser("target", help="Build and run target for current task")
+    target.set_defaults(cmd=target_command)
+    target.add_argument("target", help="Task target")
+    target.add_argument("profile", help="Build profile")
+    target.add_argument("target_args", nargs=argparse.REMAINDER)
+
+    bark = subparsers.add_parser("bark", help="Print welcome message")
+    bark.set_defaults(cmd=bark_command)
+
+    return parser
+
+
+def main():
+    parser = create_cmdline_parser()
+    args = parser.parse_args()
+
+    if "cmd" not in args:
+        parser.print_help()
+        sys.exit(2)
+
+    try:
+        args.cmd(args)
+    except KeyboardInterrupt:
+        print("Exiting on user request\n", file=sys.stderr)
+        sys.exit(0)
+    except ClientError as error:
+        print(str(error), file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(file=sys.stderr)
+        print(e, file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        sys.exit(1)
+
+# --------------------------------------------------------------------
+
+if __name__ == "__main__":
+    main()

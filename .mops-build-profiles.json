@@ -1,0 +1,41 @@
+{
+  "Debug": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "UBSAN=ON"
+  ],
+  "DebugASan": [
+    "CMAKE_BUILD_TYPE=Debug",
+    "ASAN=ON"
+  ],
+  "Release": [
+    "CMAKE_BUILD_TYPE=Release",
+    "SURE_EXCEPTIONS=OFF"
+  ],
+  "FaultyThreadASan": [
+    "CMAKE_BUILD_TYPE=RelWithDebInfo",
+    "TWIST_FAULTY=ON",
+    "ASAN=ON"
+  ],
+  "FaultyThreadTSan": [
+    "CMAKE_BUILD_TYPE=RelWithDebInfo",
+    "TWIST_FAULTY=ON",
+    "TSAN=ON"
+  ],
+  "Fiber": [
+    "CMAKE_BUILD_TYPE=RelWithDebInfo",
+    "TWIST_FAULTY=ON",
+    "TWIST_SIM=ON"
+  ],
+  "FiberASan": [
+    "CMAKE_BUILD_TYPE=RelWithDebInfo",
+    "TWIST_FAULTY=ON",
+    "TWIST_SIM=ON",
+    "ASAN=ON"
+  ],
+  "Matrix": [
+    "CMAKE_BUILD_TYPE=RelWithDebInfo",
+    "TWIST_FAULTY=ON",
+    "TWIST_SIM=ON",
+    "TWIST_SIM_ISOLATION=ON"
+  ]
+}
