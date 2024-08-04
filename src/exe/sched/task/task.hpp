@@ -8,7 +8,7 @@ struct ITask {
   virtual void Run() noexcept = 0;
 
  protected:
-  virtual ~ITask() = default;
+  ~ITask() = default;
 };
 
 // Intrusive task

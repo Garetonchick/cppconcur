@@ -11,6 +11,7 @@ namespace exe::fiber {
 
 class Fiber : private sched::task::TaskBase {
  public:
+  virtual ~Fiber() = default; 
   static Fiber& NewFiber(IScheduler&, ITask*);
 
   void Suspend(IAwaiter&);

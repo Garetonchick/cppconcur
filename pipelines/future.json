@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "future_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "future_lazy_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    }
+  ]
+}

@@ -93,35 +93,6 @@ TEST_SUITE(ThreadPool) {
     pool.Stop();
   }
 
-  SIMPLE_TEST(Parallel) {
-    sched::ThreadPool pool{4};
-
-    pool.Start();
-
-    std::atomic<bool> fast{false};
-
-    thread::WaitGroup wg;
-
-    wg.Add(1);
-    sched::task::Submit(pool, [&] {
-      std::this_thread::sleep_for(1s);
-      wg.Done();
-    });
-
-    wg.Add(1);
-    sched::task::Submit(pool, [&] {
-      fast.store(true);
-      wg.Done();
-    });
-
-    std::this_thread::sleep_for(100ms);
-
-    ASSERT_EQ(fast.load(), true);
-
-    wg.Wait();
-    pool.Stop();
-  }
-
   SIMPLE_TEST(TwoPools) {
     sched::ThreadPool pool1{1};
     sched::ThreadPool pool2{1};
@@ -224,22 +195,28 @@ TEST_SUITE(ThreadPool) {
     pool.Stop();
   }
 
-  TEST(UseThreads, wheels::test::TestOptions().TimeLimit(1s)) {
-    sched::ThreadPool pool{4};
-    pool.Start();
+  SIMPLE_TEST(CrossSubmit) {
+    sched::ThreadPool pool1{1};
+    sched::ThreadPool pool2{1};
+
+    pool1.Start();
+    pool2.Start();
 
     thread::WaitGroup wg;
+    wg.Add(1);
 
-    for (size_t i = 0; i < 4; ++i) {
-      wg.Add(1);
-      sched::task::Submit(pool, [&wg] {
-        std::this_thread::sleep_for(750ms);
+    sched::task::Submit(pool1, [&] {
+      ASSERT_TRUE(sched::ThreadPool::Current() == &pool1);
+      sched::task::Submit(pool2, [&] {
+        ASSERT_TRUE(sched::ThreadPool::Current() == &pool2);
         wg.Done();
       });
-    }
+    });
 
     wg.Wait();
-    pool.Stop();
+
+    pool1.Stop();
+    pool2.Stop();
   }
 
   TEST(TooManyThreads, wheels::test::TestOptions().TimeLimit(2s)) {

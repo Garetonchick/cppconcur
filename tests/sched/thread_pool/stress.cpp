@@ -4,7 +4,7 @@
 
 #include <twist/ed/std/atomic.hpp>
 
-#include <twist/test/assert.hpp>
+#include <twist/assist/assert.hpp>
 
 #include <course/test/twist.hpp>
 #include <course/test/time_budget.hpp>
@@ -33,7 +33,7 @@ TEST_SUITE(StressThreadPool) {
 
       wg.Wait();
 
-      TWIST_TEST_ASSERT(done.load() == todo, "Missing tasks");
+      TWIST_ASSERT(done.load() == todo, "Missing tasks");
     }
 
     pool.Stop();

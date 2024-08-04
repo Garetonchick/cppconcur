@@ -1,11 +1,12 @@
 #pragma once
 
+#include <twist/ed/std/thread.hpp>
+
 #include <exe/sched/task/scheduler.hpp>
 #include <exe/thread/queue.hpp>
 
-#include <twist/ed/std/thread.hpp>
-#include <vector>
 #include <cstddef>
+#include <vector>
 
 namespace exe::sched {
 

@@ -10,9 +10,14 @@ add_concur_test(sched_thread_pool_unit_tests sched/thread_pool/unit.cpp)
 add_concur_test(sched_thread_pool_random_tests sched/thread_pool/random.cpp)
 add_concur_test(sched_thread_pool_stress_tests sched/thread_pool/stress.cpp)
 
+add_concur_test(sched_thread_pool_load_balancing_random_tests sched/thread_pool/load_balancing/random.cpp)
+add_concur_test(sched_thread_pool_load_balancing_random2_tests sched/thread_pool/load_balancing/random2.cpp)
+
 # Sched / RunLoop
 add_concur_test(sched_run_loop_unit_tests sched/run_loop/unit.cpp)
+add_concur_test(sched_run_loop_intrusive_tests sched/run_loop/intrusive.cpp)
 add_concur_test(sched_run_loop_sane_tests sched/run_loop/sane.cpp)
+add_concur_test(sched_run_loop_alloc_tests sched/run_loop/alloc.cpp)
 
 # Fibers
 
@@ -56,3 +61,7 @@ add_concur_test(fiber_sync_wait_group_stress_tests fiber/sync/wait_group/stress.
 
 add_concur_test(fiber_sync_wait_group_storage_random_tests fiber/sync/wait_group/storage/random.cpp)
 add_concur_test(fiber_sync_wait_group_storage_stress_tests fiber/sync/wait_group/storage/stress.cpp)
+
+# Future
+add_concur_test(future_unit_tests future/unit.cpp)
+add_concur_test(future_lazy_unit_tests future/lazy_unit.cpp)

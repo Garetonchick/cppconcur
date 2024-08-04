@@ -23,7 +23,24 @@
       "profiles": [
         "Fiber",
         "FaultyThreadASan",
-        "FaultyThreadTSan"
+        "FaultyThreadTSan",
+        "Release"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_load_balancing_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "sched_thread_pool_load_balancing_random2_tests"
+      ],
+      "profiles": [
+        "Matrix"
       ]
     }
   ]
