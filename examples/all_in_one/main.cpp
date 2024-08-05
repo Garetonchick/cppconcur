@@ -38,7 +38,6 @@ void Example() {
   constexpr int kNItems = 6;
 
   auto producer = [&] {
-
     for(int i = 0; i < kNItems; ++i) {
       auto comp = future::Submit(main_sched, [i, &reserve_sched, &dist, &rnd, &mutex] {
               thread::Event done;
