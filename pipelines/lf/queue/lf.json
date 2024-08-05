@@ -1,0 +1,30 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "lf_queue_unit_tests"
+      ],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "lf_queue_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "lf_queue_stress_lf_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Release"
+      ]
+    }
+  ]
+}

@@ -101,3 +101,16 @@ add_concur_test(coro_sync_wait_group_stress_tests coro/sync/wait_group/stress.cp
 
 add_concur_test(coro_sync_wait_group_storage_random_tests coro/sync/wait_group/storage/random.cpp)
 add_concur_test(coro_sync_wait_group_storage_stress_tests coro/sync/wait_group/storage/stress.cpp)
+
+# Lock-free 
+
+# Lock-free / Stack
+add_concur_test(lf_stack_unit_tests lf/stack/unit.cpp)
+add_concur_test(lf_stack_random_tests lf/stack/random.cpp)
+add_concur_test(lf_stack_stress_tests lf/stack/stress.cpp)
+
+# Lock-free / Queue
+add_concur_test(lf_queue_unit_tests lf/queue/unit.cpp)
+add_concur_test(lf_queue_random_tests lf/queue/random.cpp)
+add_concur_test(lf_queue_stress_lf_tests lf/queue/stress/lf.cpp)
+add_concur_test(lf_queue_stress_lf_mm_tests lf/queue/stress/lf_mm.cpp)
