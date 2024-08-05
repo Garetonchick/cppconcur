@@ -1,0 +1,30 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "lf_atomic_shared_ptr_unit_tests"
+      ],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "lf_atomic_shared_ptr_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "lf_atomic_shared_ptr_stress_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Release"
+      ]
+    }
+  ]
+}

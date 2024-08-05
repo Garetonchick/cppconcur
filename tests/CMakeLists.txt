@@ -114,3 +114,8 @@ add_concur_test(lf_queue_unit_tests lf/queue/unit.cpp)
 add_concur_test(lf_queue_random_tests lf/queue/random.cpp)
 add_concur_test(lf_queue_stress_lf_tests lf/queue/stress/lf.cpp)
 add_concur_test(lf_queue_stress_lf_mm_tests lf/queue/stress/lf_mm.cpp)
+
+# Lock-free / Atomic shared ptr
+add_concur_test(lf_atomic_shared_ptr_unit_tests lf/atomic_shared_ptr/unit.cpp)
+add_concur_test(lf_atomic_shared_ptr_random_tests lf/atomic_shared_ptr/random.cpp)
+add_concur_test(lf_atomic_shared_ptr_stress_tests lf/atomic_shared_ptr/stress.cpp)
