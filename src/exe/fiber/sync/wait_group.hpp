@@ -27,7 +27,7 @@ class WaitGroup {
           ulock.unlock();
         }
         if (waiter != nullptr) {
-          waiter->Schedule();
+          waiter->Schedule(sched::task::SchedulerHint::UpToYou);
         }
       }
     }
@@ -39,7 +39,7 @@ class WaitGroup {
       std::unique_lock ulock(lock_);
       if (running_ == 0) {
         ulock.unlock();
-        handle.Schedule();
+        handle.Schedule(sched::task::SchedulerHint::UpToYou);
         return;
       }
 

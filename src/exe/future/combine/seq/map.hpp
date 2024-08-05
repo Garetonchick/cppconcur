@@ -7,6 +7,7 @@
 #include <exe/future/run/func_demand.hpp>
 
 #include <optional>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::future {
 
@@ -44,7 +45,7 @@ class [[nodiscard]] MapThunk {
       }
       s_ = s;
       val_.emplace(std::move(val));
-      s.scheduler->Submit(this);
+      s.scheduler->Submit(this, sched::task::SchedulerHint::UpToYou);
     }
 
     void Run() noexcept override {

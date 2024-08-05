@@ -1,5 +1,6 @@
 #pragma once
 
+#include "exe/sched/task/hint.hpp"
 #include "fwd.hpp"
 
 #include <wheels/intrusive/forward_list.hpp>
@@ -29,7 +30,7 @@ class FiberHandle : public wheels::IntrusiveForwardListNode<FiberHandle> {
   }
 
   // Schedule fiber to the associated scheduler
-  void Schedule();
+  void Schedule(sched::task::SchedulerHint);
 
   // Switch to this fiber immediately
   // For symmetric transfer

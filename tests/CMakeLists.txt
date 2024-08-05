@@ -62,6 +62,11 @@ add_concur_test(fiber_sync_wait_group_stress_tests fiber/sync/wait_group/stress.
 add_concur_test(fiber_sync_wait_group_storage_random_tests fiber/sync/wait_group/storage/random.cpp)
 add_concur_test(fiber_sync_wait_group_storage_stress_tests fiber/sync/wait_group/storage/stress.cpp)
 
+add_concur_test(fiber_sync_buffered_channel_unit_tests fiber/sync/channel/buffered/unit.cpp)
+add_concur_test(fiber_sync_buffered_channel_random_tests fiber/sync/channel/buffered/random.cpp)
+add_concur_test(fiber_sync_buffered_channel_stress_tests fiber/sync/channel/buffered/stress.cpp)
+
 # Future
 add_concur_test(future_unit_tests future/unit.cpp)
 add_concur_test(future_lazy_unit_tests future/lazy_unit.cpp)
+

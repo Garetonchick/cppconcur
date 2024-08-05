@@ -1,0 +1,30 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "fiber_sync_buffered_channel_unit_tests"
+      ],
+      "profiles": [
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_buffered_channel_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "fiber_sync_buffered_channel_stress_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan",
+        "FaultyThreadTSan",
+        "Release"
+      ]
+    }
+  ]
+}

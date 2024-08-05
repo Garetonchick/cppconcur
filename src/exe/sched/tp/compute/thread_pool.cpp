@@ -3,7 +3,7 @@
 #include <twist/ed/static/thread_local/ptr.hpp>
 #include <cassert>
 
-namespace exe::sched {
+namespace exe::sched::tp::compute {
 
 TWISTED_STATIC_THREAD_LOCAL_PTR(ThreadPool, current_threadpool);
 
@@ -38,7 +38,7 @@ ThreadPool::~ThreadPool() {
   assert(stopped_);
 }
 
-void ThreadPool::Submit(task::TaskBase* task) {
+void ThreadPool::Submit(task::TaskBase* task, task::SchedulerHint) {
   task_queue_.Push(task);
 }
 
@@ -54,4 +54,4 @@ void ThreadPool::Stop() {
   stopped_ = true;
 }
 
-}  // namespace exe::sched
+}  // namespace exe::sched::tp::compute

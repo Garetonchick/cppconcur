@@ -16,7 +16,7 @@ class Fiber : private sched::task::TaskBase {
 
   void Suspend(IAwaiter&);
 
-  void Schedule();
+  void Schedule(sched::task::SchedulerHint);
   void Switch();
 
   static Fiber& Self();

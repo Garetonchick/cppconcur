@@ -2,6 +2,7 @@
 
 #include <exe/thread/spinlock.hpp>
 #include <exe/fiber/sched/suspend.hpp>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::fiber {
 
@@ -15,7 +16,7 @@ class Event {
       std::unique_lock ulock(lock_);
       if (fired_) {
         ulock.unlock();  // Unlock BEFORE Schedule
-        handle.Schedule();
+        handle.Schedule(sched::task::SchedulerHint::UpToYou);
         return;
       }
       handle_copy = handle;
@@ -38,7 +39,7 @@ class Event {
         // After this Suspend exits in Wait and then handle_copy is destroyed
         // Moreover, if this is the last waiter, whole Event can be destroyed
         // So, you must not access any Event fields after last Schedule
-        waiter->Schedule();
+        waiter->Schedule(sched::task::SchedulerHint::UpToYou);
       }
       if (empty) {
         break;

@@ -2,7 +2,7 @@
 
 namespace exe::sched {
 
-void RunLoop::Submit(task::TaskBase* task) {
+void RunLoop::Submit(task::TaskBase* task, task::SchedulerHint) {
   task_queue_.PushBack(task);
 }
 

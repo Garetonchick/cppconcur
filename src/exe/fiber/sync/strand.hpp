@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::fiber {
 
@@ -117,7 +118,7 @@ class Strand {
     }
 
     void Schedule() override {
-      fiber_.Schedule();
+      fiber_.Schedule(sched::task::SchedulerHint::UpToYou);
     }
 
    private:

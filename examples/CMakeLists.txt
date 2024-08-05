@@ -1,3 +1,4 @@
 add_example(all_in_one)
 add_example(strand)
 add_example(future)
+add_example(thread_pool)

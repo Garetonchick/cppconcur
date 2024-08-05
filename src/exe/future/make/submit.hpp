@@ -5,6 +5,7 @@
 #include <exe/future/thunk/stub.hpp>
 
 #include <type_traits>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::future {
 
@@ -48,7 +49,7 @@ class [[nodiscard]] SubmitThunk {
     }
 
     void Start() {
-      scheduler_.Submit(this);
+      scheduler_.Submit(this, sched::task::SchedulerHint::UpToYou);
     }
 
    private:

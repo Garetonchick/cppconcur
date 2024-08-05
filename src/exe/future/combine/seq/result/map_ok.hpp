@@ -10,6 +10,7 @@
 #include <exe/future/make/result/ok.hpp>
 
 #include <type_traits>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::future {
 
@@ -48,7 +49,7 @@ class [[nodiscard]] MapOkThunk {
       if (s.scheduler == nullptr) {
         Run();
       } else {
-        s.scheduler->Submit(this);
+        s.scheduler->Submit(this, sched::task::SchedulerHint::UpToYou);
       }
     }
 

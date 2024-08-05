@@ -6,7 +6,7 @@ namespace exe::fiber {
 
 void Yield() {
   Awaiter awaiter([](auto handle) {
-    handle.Schedule();
+    handle.Schedule(sched::task::SchedulerHint::Yield);
   });
   Suspend(awaiter);
 }

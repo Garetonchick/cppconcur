@@ -4,6 +4,7 @@
 #include <exe/thread/spinlock.hpp>
 
 #include <mutex>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::fiber {
 
@@ -16,7 +17,7 @@ class Mutex {
 
       if (!locked_) {
         locked_ = true;
-        handle.Schedule();
+        handle.Schedule(sched::task::SchedulerHint::UpToYou);
         return;
       }
 
@@ -41,7 +42,7 @@ class Mutex {
     locked_ = false;
     if (waiters_.NonEmpty()) {
       locked_ = true;
-      waiters_.PopFront()->Schedule();
+      waiters_.PopFront()->Schedule(sched::task::SchedulerHint::UpToYou);
     }
   }
 

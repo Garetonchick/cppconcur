@@ -13,8 +13,8 @@ Fiber* FiberHandle::Release() {
   return std::exchange(fiber_, nullptr);
 }
 
-void FiberHandle::Schedule() {
-  Release()->Schedule();
+void FiberHandle::Schedule(sched::task::SchedulerHint hint) {
+  Release()->Schedule(hint);
 }
 
 void FiberHandle::Switch() {

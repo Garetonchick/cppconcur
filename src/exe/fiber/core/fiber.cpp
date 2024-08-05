@@ -17,8 +17,8 @@ void Fiber::Suspend(IAwaiter& awaiter) {
   coroutine_.Suspend();
 }
 
-void Fiber::Schedule() {
-  scheduler_.Submit(this);
+void Fiber::Schedule(sched::task::SchedulerHint hint) {
+  scheduler_.Submit(this, hint);
 }
 
 void Fiber::Run() noexcept {

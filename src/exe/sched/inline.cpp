@@ -1,11 +1,12 @@
 #include <exe/sched/inline.hpp>
+#include "exe/sched/task/hint.hpp"
 
 namespace exe::sched {
 
 class Inline : public task::IScheduler {
  public:
   // IScheduler
-  void Submit(task::TaskBase* task) override {
+  void Submit(task::TaskBase* task, task::SchedulerHint) override {
     task->Run();
   }
 };

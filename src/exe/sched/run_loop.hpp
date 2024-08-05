@@ -21,7 +21,8 @@ class RunLoop : public task::IScheduler {
   RunLoop& operator=(RunLoop&&) = delete;
 
   // task::IScheduler
-  void Submit(task::TaskBase*) override;
+  void Submit(task::TaskBase*,
+              task::SchedulerHint = task::SchedulerHint::UpToYou) override;
 
   // Run tasks
 
