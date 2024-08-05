@@ -1,0 +1,47 @@
+{
+  "tests": [
+    {
+      "targets": [
+        "coro_sync_wait_group_unit_tests"
+      ],
+      "profiles": [
+        "Debug",
+        "DebugASan"
+      ]
+    },
+    {
+      "targets": [
+        "coro_sync_wait_group_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "coro_sync_wait_group_stress_tests"
+      ],
+      "profiles": [
+        "Release",
+        "FaultyThreadASan",
+        "FaultyThreadTSan"
+      ]
+    },
+    {
+      "targets": [
+        "coro_sync_wait_group_storage_random_tests"
+      ],
+      "profiles": [
+        "Matrix"
+      ]
+    },
+    {
+      "targets": [
+        "coro_sync_wait_group_storage_stress_tests"
+      ],
+      "profiles": [
+        "FaultyThreadASan"
+      ]
+    }
+  ]
+}

@@ -70,3 +70,34 @@ add_concur_test(fiber_sync_buffered_channel_stress_tests fiber/sync/channel/buff
 add_concur_test(future_unit_tests future/unit.cpp)
 add_concur_test(future_lazy_unit_tests future/lazy_unit.cpp)
 
+# Stackless Coroutines
+
+# Coro / Sched
+add_concur_test(coro_sched_run_loop_unit_tests coro/sched/run_loop/unit.cpp)
+add_concur_test(coro_sched_thread_pool_unit_tests coro/sched/thread_pool/unit.cpp)
+
+# Coro / Sync / Event
+add_concur_test(coro_sync_event_unit_tests coro/sync/event/unit.cpp)
+add_concur_test(coro_sync_event_random_tests coro/sync/event/random.cpp)
+add_concur_test(coro_sync_event_stress_tests coro/sync/event/stress.cpp)
+
+add_concur_test(coro_sync_event_storage_random_tests coro/sync/event/storage/random.cpp)
+add_concur_test(coro_sync_event_storage_stress_tests coro/sync/event/storage/stress.cpp)
+
+# Coro / Sync / Mutex / ScopedLock
+add_concur_test(coro_sync_mutex_scoped_lock_unit_tests coro/sync/mutex/scoped_lock/unit.cpp)
+add_concur_test(coro_sync_mutex_scoped_lock_random_tests coro/sync/mutex/scoped_lock/random.cpp)
+add_concur_test(coro_sync_mutex_scoped_lock_stress_tests coro/sync/mutex/scoped_lock/stress.cpp)
+
+# Coro / Sync / Mutex / RunMutex
+add_concur_test(coro_sync_mutex_run_unit_tests coro/sync/mutex/run/unit.cpp)
+add_concur_test(coro_sync_mutex_run_random_tests coro/sync/mutex/run/random.cpp)
+add_concur_test(coro_sync_mutex_run_stress_tests coro/sync/mutex/run/stress.cpp)
+
+# Coro / Sync / WaitGroup
+add_concur_test(coro_sync_wait_group_unit_tests coro/sync/wait_group/unit.cpp)
+add_concur_test(coro_sync_wait_group_random_tests coro/sync/wait_group/random.cpp)
+add_concur_test(coro_sync_wait_group_stress_tests coro/sync/wait_group/stress.cpp)
+
+add_concur_test(coro_sync_wait_group_storage_random_tests coro/sync/wait_group/storage/random.cpp)
+add_concur_test(coro_sync_wait_group_storage_stress_tests coro/sync/wait_group/storage/stress.cpp)
